@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"   # change if you prefer
+  region = "us-east-1"  
 }
 
 resource "aws_vpc" "v" {
@@ -48,7 +48,7 @@ resource "aws_route_table_association" "a" {
 
 resource "aws_key_pair" "deployer" {
   key_name   = "resume-key"
-  public_key = file("~/.ssh/id_rsa.pub") # ensure this path exists or replace with your public key
+  public_key = file("C:/Users/LENOVO/.ssh/id_rsa.pub")
 }
 
 resource "aws_security_group" "sg" {
@@ -61,7 +61,7 @@ resource "aws_security_group" "sg" {
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
-    cidr_blocks      = [chomp(file("my_ip_cidr.txt"))] # or replace with "x.x.x.x/32"
+    cidr_blocks      = ["193.186.4.185/32"]
   }
 
   ingress {
@@ -93,7 +93,7 @@ data "aws_ami" "amazon_linux" {
 
 resource "aws_instance" "web" {
   ami                    = data.aws_ami.amazon_linux.id
-  instance_type          = "t2.micro"      # Free tier
+  instance_type          = "t2.micro"      
   subnet_id              = aws_subnet.public.id
   associate_public_ip_address = true
   key_name               = aws_key_pair.deployer.key_name
